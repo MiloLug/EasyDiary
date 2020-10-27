@@ -1,0 +1,40 @@
+DB:
+	students:
+		-id, --[Work] (complete), name, some data... (Student)
+		relations:
+			rel_stud_work_complete:
+				- Student.id, Work.id
+
+	organizations:
+		-id, --[Group], some data... (Organization)
+
+	groups:
+		-id, Organization.id, --[Student], --[Subject], --[Schedule] some data... (Group)
+		relations:
+			rel_group_stud:
+				- Group.id, Student.id
+			rel_group_subj:
+				- Group.id, Subjec.id
+			rel_group_sch:
+				- Group.id, Schedule.id
+
+	subjects:
+		-id, --[Work]..., title (Subject)
+
+	works:
+		-id, Subject.id, some data... (Work)
+
+	days:
+		-id, --[Subject]... (Day)
+		relations:
+			rel_day_subj:
+				- Day.id, Subject.id, subj_order
+
+	weeks:
+		-id, Schedule.id, [Day.id] (7)... (Week)
+
+	schedules:
+		-id, --[Week], date from, date to... (Schedule)
+		relations:
+			rel_sch_week:
+				- Schedule.id, Week.id, sch_order

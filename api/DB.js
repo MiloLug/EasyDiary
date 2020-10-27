@@ -2,29 +2,57 @@
 /*
 DB:
 	students:
-		-id, [Work] (complete), name, some data... (Student)
+		-id, --[Work] (complete), name, some data... (Student)
+		relations:
+			rel_stud_work_complete:
+				- Student.id, Work.id
 
 	organizations:
-		-id, [Group], some data... (Organization)
+		-id, --[Group], some data... (Organization)
 
 	groups:
-		-id, [Student], [Subject], [Week] some data... (Group)
+		-id, Organization.id, --[Student], --[Subject], --[Schedule] some data... (Group)
+		relations:
+			rel_group_stud:
+				- Group.id, Student.id
+			rel_group_subj:
+				- Group.id, Subjec.id
+			rel_group_sch:
+				- Group.id, Schedule.id
 
 	subjects:
-		-id, [Work]... (Subject)
+		-id, --[Work]..., title (Subject)
 
 	works:
-		-id, Subject, some data... (Work)
+		-id, Subject.id, some data... (Work)
 
 	days:
-		-id, [Subject]... (Day)
+		-id, --[Subject]... (Day)
+		relations:
+			rel_day_subj:
+				- Day.id, Subject.id, subj_order
 
 	weeks:
-		-id, [Day] (7)... (Week)
+		-id, Schedule.id, [Day.id] (7)... (Week)
 
-	shedule:
-		-id, [Week], date from, date to... (Schedule)
+	schedules:
+		-id, --[Week], date from, date to... (Schedule)
+		relations:
+			rel_sch_week:
+				- Schedule.id, Week.id, sch_order
 */
+
+//const cache = require("./Cache");
+const mysql = require('mysql2/promise');
+
+class BaseInstance{
+	constructor(category){
+		this.cat = category;
+	}
+	lastVersion(organization){
+		
+	}
+}
 
 module.exports.Subject = class Subject{
 	static _lastVersion = 0;

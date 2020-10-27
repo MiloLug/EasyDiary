@@ -104,6 +104,11 @@ export default {
 			let tmp = await storageAPIUtils.getUpdates("Works");
 			if(tmp)
 				context.commit('updateWorks', tmp.data);
+		},
+		async updateSchedule(context){
+			let tmp = await storageAPIUtils.getUpdates("Works");
+			if(tmp)
+				context.commit('updateWorks', tmp.data);
 		}
 	},
 }
