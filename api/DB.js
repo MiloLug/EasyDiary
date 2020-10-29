@@ -24,7 +24,7 @@ DB:
 		-id, --[Work]..., title (Subject)
 
 	works:
-		-id, Subject.id, some data... (Work)
+		-id, Subject.id, title, text... (Work)
 
 	days:
 		-id, --[Subject]... (Day)
@@ -40,69 +40,76 @@ DB:
 		relations:
 			rel_sch_week:
 				- Schedule.id, Week.id, sch_order
+
+	updaters:
+		-id, [Group.id], group_v, subj_v, work_v, day_v, week_v, sch_v (Updater)
 */
 
 //const cache = require("./Cache");
 const mysql = require('mysql2/promise');
 
+const db = (()=>{
+	const pool = mysql.createPool({
+		host:'localhost',
+		user: 'root',
+		database: 'easydiary'
+	});
+	return pool;
+})();
+
 class BaseInstance{
 	constructor(category){
 		this.cat = category;
 	}
-	lastVersion(organization){
-		
+	async hasUpdates(group, current_v){
+		let [rows, fields] = await db.execute(`SELECT ${this.cat}_v version FROM updaters WHERE group_id = ? AND ${this.cat}_v <> ?`, [
+			group,
+			current_v
+		]);
+		return rows[0];
+	}
+	async updateVersion(group){
+		return (await db.execute(`UPDATE updaters SET ${this.cat}_v = ${this.cat}_v + 1 WHERE group_id = ?`, [
+			group
+		]))[0].affectedRows !== 0;
 	}
 }
 
-module.exports.Subject = class Subject{
-	static _lastVersion = 0;
-	static _updateLocalVersion(){
-		Subject._lastVersion = 23;
-	}
+module.exports.Subject = {
+	base: new BaseInstance("subj"),
 	
-	static get lastVersion(){
-		return Subject._lastVersion;
-	}
-
-	static hasUpdates(version){
-		Subject._updateLocalVersion();
-		return version != Subject.lastVersion;
-	}
-
-	static get data(){
-		return {
-			10: {title:"Географыя"},
-			1: {title:"Быологыя"}
-		};
+	async data(group){
+		let [rows, fields] = await db.execute(
+`SELECT 
+	S.id,
+	S.title
+FROM
+	subjects S
+INNER JOIN rel_group_subj RGS ON
+	RGS.subj_id = S.id
+	AND RGS.group_id = ?`, [
+			group
+		]);
+		return rows;
 	}
 }
 
-module.exports.Work = class Work{
-	static _lastVersion = 0;
-	static _updateLocalVersion(){
-		Work._lastVersion = 23;
-	}
-	
-	static get lastVersion(){
-		return Work._lastVersion;
-	}
+module.exports.Work = {
+	base: new BaseInstance("work"),
 
-	static hasUpdates(version){
-		Work._updateLocalVersion();
-		return version != Work.lastVersion;
-	}
-
-	static get data(){
-		return {
-			10: {
-				title: "Work 1 - giografeya",
-				text: "prinesi mne pirozhok"
-			},
-			12: {
-				title: "Work 2 - biolijia",
-				text: "prinesi mne snyus"
-			}
-		};
+	async data(group){
+		let [rows, fields] = await db.execute(
+`SELECT 
+	id,
+	title,
+	data_text
+FROM
+	works
+WHERE
+	group_id = ?`, [
+			group
+		]);
+		return rows;
 	}
 }
 

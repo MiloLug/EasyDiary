@@ -52,7 +52,6 @@ let storageAPIUtils = {
 				req = await API.call('student/get'+dataClass, {
 					lastVersion: tmp.lastVersion || null
 				});
-				console.log(req);
 				if(req.hasUpdate){
 					Object.assign(tmp.data, req.data);
 					tmp.lastVersion = req.lastVersion;
@@ -97,18 +96,17 @@ export default {
 	actions: {
 		async updateSubjects(context){
 			let tmp = await storageAPIUtils.getUpdates("Subjects");
-			if(tmp)
-				context.commit('updateSubjects', tmp.data);
+			if(tmp){
+				tmp = tmp.data.reduce((acc, item)=>(acc[item.id] = item, acc),{});
+				context.commit('updateSubjects', tmp);
+			}
 		},
 		async updateWorks(context){
 			let tmp = await storageAPIUtils.getUpdates("Works");
-			if(tmp)
-				context.commit('updateWorks', tmp.data);
-		},
-		async updateSchedule(context){
-			let tmp = await storageAPIUtils.getUpdates("Works");
-			if(tmp)
-				context.commit('updateWorks', tmp.data);
+			if(tmp){
+				tmp = tmp.data.reduce((acc, item)=>(acc[item.id] = item, acc),{});
+				context.commit('updateWorks', tmp);
+			}
 		}
 	},
 }

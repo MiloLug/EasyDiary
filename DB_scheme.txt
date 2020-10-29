@@ -38,3 +38,6 @@ DB:
 		relations:
 			rel_sch_week:
 				- Schedule.id, Week.id, sch_order
+
+	updaters:
+		-id, [Group.id], group_v, subj_v, work_v, day_v, week_v, sch_v (Updater)

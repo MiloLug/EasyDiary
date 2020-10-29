@@ -9,15 +9,16 @@ fastify.register(require('fastify-cors'), {
 // Declare a route
 fastify.post('/student/getSubjects', async (request, reply) => {
 	let params = request.body.parsed;
-	if(Subject.hasUpdates(params.lastVersion)){
+	let ver = await Subject.base.hasUpdates(1, params.lastVersion || 0);
+	if(ver !== undefined){
 		return {
-			hasUpdate: true,
-			lastVersion: Subject.lastVersion,
-			data: Subject.data
+			hasUpdates: true,
+			lastVersion: ver.version,
+			data: await Subject.data(1)
 		};
 	}else{
 		return {
-			hasUpdate: false
+			hasUpdates: false
 		};
 	}
 });
@@ -28,15 +29,16 @@ fastify.post('/student/getSubjects', async (request, reply) => {
 
 fastify.post('/student/getWorks', async (request, reply) => {
 	let params = request.body.parsed;
-	if(Work.hasUpdates(params.lastVersion)){
+	let ver = await Subject.base.hasUpdates(1, params.lastVersion || 0);
+	if(ver !== undefined){
 		return {
-			hasUpdate: true,
-			lastVersion: Work.lastVersion,
-			data: Work.data
+			hasUpdates: true,
+			lastVersion: ver.version,
+			data: await Work.data(1)
 		};
 	}else{
 		return {
-			hasUpdate: false
+			hasUpdates: false
 		};
 	}
 });
@@ -45,13 +47,13 @@ fastify.post('/student/getDays', async (request, reply) => {
 	let params = request.body.parsed;
 	if(Day.hasUpdates(params.lastVersion)){
 		return {
-			hasUpdate: true,
+			hasUpdates: true,
 			lastVersion: Day.lastVersion,
 			data: Day.data
 		};
 	}else{
 		return {
-			hasUpdate: false
+			hasUpdates: false
 		};
 	}
 });
@@ -60,13 +62,13 @@ fastify.post('/student/getWeeks', async (request, reply) => {
 	let params = request.body.parsed;
 	if(Week.hasUpdates(params.lastVersion)){
 		return {
-			hasUpdate: true,
+			hasUpdates: true,
 			lastVersion: Week.lastVersion,
 			data: Week.data
 		};
 	}else{
 		return {
-			hasUpdate: false
+			hasUpdates: false
 		};
 	}
 });
@@ -75,13 +77,13 @@ fastify.post('/student/getSchedule', async (request, reply) => {
 	let params = request.body.parsed;
 	if(Schedule.hasUpdates(params.lastVersion)){
 		return {
-			hasUpdate: true,
+			hasUpdates: true,
 			lastVersion: Schedule.lastVersion,
 			data: Schedule.data
 		};
 	}else{
 		return {
-			hasUpdate: false
+			hasUpdates: false
 		};
 	}
 });
