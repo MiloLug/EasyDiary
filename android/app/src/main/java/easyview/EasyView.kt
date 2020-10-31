@@ -7,10 +7,11 @@ import android.os.Bundle
 import android.webkit.JavascriptInterface
 import android.webkit.WebChromeClient
 import android.webkit.WebView
+import androidx.webkit.WebSettingsCompat
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import java.io.*
-
+import androidx.webkit.WebViewFeature
 
 class EasyView(val context: Context) {
     private val gson:Gson = GsonBuilder().setPrettyPrinting().create()
@@ -139,6 +140,8 @@ class EasyView(val context: Context) {
             field = value
         }
 
+    var disableAutoDarkMode: Boolean = false
+
     @SuppressLint("SetJavaScriptEnabled", "JavascriptInterface")
     fun onCreate(savedInstanceState: Bundle?) {
         view?.let {
@@ -156,6 +159,10 @@ class EasyView(val context: Context) {
                     it.addJavascriptInterface(obj, name)
                 }
                 it.webViewClient = EasyWebViewClient()
+                if (disableAutoDarkMode && WebViewFeature.isFeatureSupported(WebViewFeature.FORCE_DARK)) {
+                    WebSettingsCompat.setForceDark(it.settings, WebSettingsCompat.FORCE_DARK_OFF)
+                }
+
                 it.webChromeClient = WebChromeClient()
 
                 it.loadUrl(url)

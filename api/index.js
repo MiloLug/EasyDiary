@@ -112,7 +112,10 @@ fastify.addContentTypeParser(
 	}
 );
 
+const ngrok = require('ngrok');
 const start = async () => {
+	const url = await ngrok.connect(3000);
+	console.log(url);
 	try {
 		await fastify.listen(3000)
 	} catch (err) {

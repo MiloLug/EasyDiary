@@ -2,6 +2,8 @@ import { createStore } from 'vuex'
 import Sidebar from './modules/Sidebar';
 import Fragments from './modules/Fragments';
 import dataAPI from './modules/dataAPI';
+import LoadingScreen from './modules/LoadingScreen';
+import WorkViewer from './modules/WorkViewer';
 
 export default createStore({
 	state: {
@@ -13,6 +15,8 @@ export default createStore({
 	modules: {
 		Sidebar,
 		Fragments,
-		dataAPI
+		dataAPI,
+		LoadingScreen,
+		WorkViewer
 	}
 })

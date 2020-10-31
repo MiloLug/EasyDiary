@@ -2,6 +2,8 @@ $color-gray: #e6e6e6;
 $color-light: #f5f5f5;
 $color-white: #ffffff;
 
+$color-backdrop: rgba(0, 0, 0, .35);
+
 $shadow-superlight: 0 0 20px #00000020;
 $shadow-light: 0 0 20px #0000002b;
 
@@ -14,6 +16,8 @@ $sidebar-width: 224px;
 $layers-default: 1;
 $layers-header: 900;
 $layers-sidebar: 1000;
+$layers-work-viewer: 1001;
+$layers-loading-screen: 9999999999;
 
 //sizes
 $header-height: 60px;

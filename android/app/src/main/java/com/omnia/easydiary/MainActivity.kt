@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
             easyView.view = findViewById(R.id.mainWindowView)
             easyView.url = "file:///android_asset/index.html"
             easyView.enableInternalStorageApi = true
+            easyView.disableAutoDarkMode = true
         }
         easyView.onCreate(savedInstanceState)
 

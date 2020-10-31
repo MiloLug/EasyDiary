@@ -5,6 +5,9 @@
 
 	<Calendar v-bind:default="true"/>
 	<Notes/>
+	<WorkViewer/>
+
+	<LoadingScreen/>
 	<!-- <img alt="Vue logo" src="./assets/logo.png">
 	<HelloWorld msg="Welcome to Your Vue.js App"/> -->
 </div>
@@ -15,6 +18,8 @@ import Sidebar from './components/Sidebar.vue'
 import Header from './components/Header.vue'
 import Calendar from './components/Calendar.vue'
 import Notes from './components/Notes.vue'
+import LoadingScreen from './components/LoadingScreen.vue'
+import WorkViewer from './components/WorkViewer.vue'
 
 export default {
 	name: 'App',
@@ -22,10 +27,23 @@ export default {
 		Sidebar,
 		Calendar,
 		Header,
-		Notes
+		Notes,
+		LoadingScreen,
+		WorkViewer
+	},
+	methods:{
+		async appLoading(){
+			this.$store.commit('LoadingScreen/show');
+			await Promise.all([
+				this.$store.dispatch("dataAPI/updateWorks"),
+				this.$store.dispatch("dataAPI/updateSubjects")
+			]);
+			this.$store.commit('LoadingScreen/hide');
+		}
 	},
 	mounted(){
 		window.gg = this.$store;
+		this.appLoading();
 	}
 }
 </script>

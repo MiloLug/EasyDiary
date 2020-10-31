@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Хост:                         127.0.0.1
--- Версия сервера:               8.0.12 - MySQL Community Server - GPL
+-- Версия сервера:               5.7.20 - MySQL Community Server (GPL)
 -- Операционная система:         Win64
 -- HeidiSQL Версия:              9.5.0.5196
 -- --------------------------------------------------------
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `groups` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы easydiary.groups: ~2 rows (приблизительно)
+-- Дамп данных таблицы easydiary.groups: ~0 rows (приблизительно)
 /*!40000 ALTER TABLE `groups` DISABLE KEYS */;
 INSERT IGNORE INTO `groups` (`id`, `org_id`) VALUES
 	(1, 1);
@@ -97,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `rel_group_subj` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы easydiary.rel_group_subj: ~2 rows (приблизительно)
+-- Дамп данных таблицы easydiary.rel_group_subj: ~3 rows (приблизительно)
 /*!40000 ALTER TABLE `rel_group_subj` DISABLE KEYS */;
 INSERT IGNORE INTO `rel_group_subj` (`id`, `group_id`, `subj_id`) VALUES
 	(1, 1, 1),
@@ -184,7 +184,7 @@ CREATE TABLE IF NOT EXISTS `updaters` (
 -- Дамп данных таблицы easydiary.updaters: ~0 rows (приблизительно)
 /*!40000 ALTER TABLE `updaters` DISABLE KEYS */;
 INSERT IGNORE INTO `updaters` (`id`, `group_id`, `group_v`, `subj_v`, `work_v`, `day_v`, `week_v`, `sch_v`) VALUES
-	(1, 1, 1, 1, 2, 1, 1, 1);
+	(1, 1, 3, 3, 4, 3, 3, 3);
 /*!40000 ALTER TABLE `updaters` ENABLE KEYS */;
 
 -- Дамп структуры для таблица easydiary.weeks
@@ -210,19 +210,19 @@ CREATE TABLE IF NOT EXISTS `works` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `subj_id` int(11) DEFAULT NULL,
   `group_id` int(11) DEFAULT NULL,
-  `title` varchar(255) NOT NULL DEFAULT '',
   `data_text` varchar(1023) NOT NULL DEFAULT '',
   `version` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- Дамп данных таблицы easydiary.works: ~4 rows (приблизительно)
 /*!40000 ALTER TABLE `works` DISABLE KEYS */;
-INSERT IGNORE INTO `works` (`id`, `subj_id`, `group_id`, `title`, `data_text`, `version`) VALUES
-	(1, 1, 1, 'убить паука', 'надо убить двухметрового паука в сонной долине', 1),
-	(2, 2, 1, 'стать тенью', 'все обязаны познать таинства 97 завета греховных времён', 2),
-	(3, 1, 1, 'черти', 'пойти по этапу', 1),
-	(4, 4, 1, 'считалочка', 'произвести подсчёт сусликов во всём мире с точностью +- 1', 1);
+INSERT IGNORE INTO `works` (`id`, `subj_id`, `group_id`, `data_text`, `version`) VALUES
+	(1, 1, 1, 'надо убить двухметрового паука в сонной долине', 1),
+	(2, 2, 1, 'все обязаны познать таинства 97 завета греховных времён', 2),
+	(3, 1, 1, 'пойти по этапу', 1),
+	(4, 4, 1, 'произвести подсчёт сусликов во всём мире с точностью +- 1', 1),
+	(5, 1, 1, 'Твiр роздум на тему : \r\n"життя у побудi \r\nтарганiв та великих  \r\nбобрiв" . врпава 7-12 \r\nусно( переказ ) , \r\nвправи 13 та 16 \r\nписьмено.\r\nыввыа ша зу\r\nТвiр роздум на тему : \r\n"життя у побудi \r\nтарганiв та великих  \r\nбобрiв" . врпава 7-12 \r\nусно( переказ ) , \r\nвправи 13 та 16 \r\nписьмено.\r\n\r\nТвiр роздум на тему : \r\n"життя у побудi \r\nтарганiв та великих  \r\nбобрiв" . врпава 7-12 \r\nусно( переказ ) , \r\nвправи 13 та 16 \r\nписьмено.\r\nвправи 13 та 16 \r\nписьмено.\r\n\r\nТвiр роздум на тему : \r\n"життя у побудi \r\nтарганiв та великих  \r\nбобрiв" . врпава 7-12 \r\nусно( переказ ) , \r\nвправи 13 та 16 \r\nписьмено.', 4);
 /*!40000 ALTER TABLE `works` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

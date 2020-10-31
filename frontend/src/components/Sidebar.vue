@@ -45,7 +45,7 @@ export default {
 	height:0;
 }
 .bg{
-	background: rgba(0, 0, 0, .35);
+	background: $color-backdrop;
 	display: none;
 	position:fixed;
 	width:100%;

@@ -24,7 +24,7 @@ DB:
 		-id, --[Work]..., title (Subject)
 
 	works:
-		-id, Subject.id, title, text, version ... (Work)
+		-id, Subject.id, text, version ... (Work)
 
 	days:
 		-id, --[Subject]... (Day)
@@ -120,9 +120,7 @@ module.exports.Work = new class Work extends BaseInstance{
 	async data(group, version = 0){
 		let [rows, fields] = await db.execute(
 `SELECT 
-	id,
-	title,
-	data_text
+	*
 FROM
 	works
 WHERE

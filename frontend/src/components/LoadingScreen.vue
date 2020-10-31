@@ -1,0 +1,103 @@
+<template>
+	<div class="loader-bg" v-if="shown">
+		<svg>
+			<g>
+				<path d="M 50,100 A 1,1 0 0 1 50,0"/>
+			</g>
+			<g>
+				<path d="M 50,75 A 1,1 0 0 0 50,-25"/>
+			</g>
+			<defs>
+				<linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+				<stop offset="0%" style="stop-color:#4aa57b;stop-opacity:1" />
+				<stop offset="100%" style="stop-color:#186B45;stop-opacity:1" />
+				</linearGradient>
+			</defs>
+		</svg>
+	</div>
+</template>
+
+<script>
+let name = "LoadingScreen";
+export default {
+	name,
+	data(){
+		return {};
+	},
+	computed: {
+		shown(){
+			return this.$store.state.LoadingScreen.show;
+		}
+	}
+}
+</script>
+
+<style lang="scss" scoped>
+	$transition-duration: 2s;
+	$path-length: 157px; // Retrieved using SVG's getTotalLength()
+
+	.loader-bg {
+		position: fixed;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 100%;
+		height: 100%;
+		z-index: $layers-loading-screen;
+		background: white;
+	}
+
+	svg {
+		overflow: visible;
+		width: 100px;
+		height: 150px;
+		
+		g {
+			animation: slide $transition-duration linear infinite;
+			
+			&:nth-child(2) {
+				animation-delay: $transition-duration / 4;
+				
+				path {
+					animation-delay: $transition-duration / 4;
+					stroke-dasharray: 0px $path-length + 1;
+					stroke-dashoffset: 1px;
+				}
+			}
+		}
+		
+		path{
+			stroke: url(#gradient);
+			stroke-width: 20px;
+			stroke-linecap: round;
+			fill: none;
+			stroke-dasharray: 0 $path-length;
+			stroke-dashoffset: 0;
+			animation: escalade $transition-duration cubic-bezier(0.8, 0, 0.2, 1) infinite;
+		}
+	}
+
+	@keyframes slide {
+		0% {
+			transform: translateY(-50px);
+		}
+		100% {
+			transform: translateY(50px);
+		}
+	}
+
+	@keyframes escalade {
+		0% {
+			stroke-dasharray: 0 $path-length;
+			stroke-dashoffset: 0;
+		}
+		50% {
+			stroke-dasharray: $path-length - 1 $path-length;
+			stroke-dashoffset: 0;
+		}
+		100% {
+			stroke-dasharray: $path-length - 1 $path-length;
+			stroke-dashoffset: -($path-length - 1);
+		}
+	}
+</style>

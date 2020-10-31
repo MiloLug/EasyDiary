@@ -29,7 +29,7 @@ let storage = typeof(InternalStorage) != 'undefined' ? {
 
 /*eslint-enable no-undef*/
 let API = {
-	address: 'http://127.0.0.1:3000/',
+	address: 'https://9e8649701c0c.ngrok.io/',
 	async call(path, parameters = null){
 		return fetch(API.address + path, {
 			method:"POST",
@@ -52,8 +52,12 @@ let storageAPIUtils = {
 				req = await API.call('student/get'+dataClass, {
 					lastVersion: tmp.lastVersion || null
 				});
-				if(req.hasUpdate){
-					Object.assign(tmp.data, req.data);
+				if(req.hasUpdates){
+					if(Array.isArray(req.data)){
+						tmp.data = tmp.data.concat(req.data);
+					}else{
+						Object.assign(tmp.data, req.data);
+					}
 					tmp.lastVersion = req.lastVersion;
 				}
 				storage.write(dataClass, tmp);
@@ -109,4 +113,16 @@ export default {
 			}
 		}
 	},
+
+	getters:{
+		getWorkById: (state, getters) => id => {
+			return {
+				data_text: state.works[id].data_text,
+				subject: getters.getSubjectById(state.works[id].subj_id)
+			};
+		},
+		getSubjectById: state => id => {
+			return state.subjects[id];
+		}
+	}
 }
