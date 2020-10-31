@@ -11,6 +11,11 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
+
+-- Дамп структуры базы данных easydiary
+CREATE DATABASE IF NOT EXISTS `easydiary` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `easydiary`;
+
 -- Дамп структуры для таблица easydiary.days
 CREATE TABLE IF NOT EXISTS `days` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -28,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `groups` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы easydiary.groups: ~1 rows (приблизительно)
+-- Дамп данных таблицы easydiary.groups: ~2 rows (приблизительно)
 /*!40000 ALTER TABLE `groups` DISABLE KEYS */;
 INSERT IGNORE INTO `groups` (`id`, `org_id`) VALUES
 	(1, 1);
@@ -41,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `organizations` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы easydiary.organizations: ~1 rows (приблизительно)
+-- Дамп данных таблицы easydiary.organizations: ~0 rows (приблизительно)
 /*!40000 ALTER TABLE `organizations` DISABLE KEYS */;
 INSERT IGNORE INTO `organizations` (`id`, `title`) VALUES
 	(1, 'ШКОЛА 666');
@@ -92,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `rel_group_subj` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- Дамп данных таблицы easydiary.rel_group_subj: ~3 rows (приблизительно)
+-- Дамп данных таблицы easydiary.rel_group_subj: ~2 rows (приблизительно)
 /*!40000 ALTER TABLE `rel_group_subj` DISABLE KEYS */;
 INSERT IGNORE INTO `rel_group_subj` (`id`, `group_id`, `subj_id`) VALUES
 	(1, 1, 1),
@@ -179,7 +184,7 @@ CREATE TABLE IF NOT EXISTS `updaters` (
 -- Дамп данных таблицы easydiary.updaters: ~0 rows (приблизительно)
 /*!40000 ALTER TABLE `updaters` DISABLE KEYS */;
 INSERT IGNORE INTO `updaters` (`id`, `group_id`, `group_v`, `subj_v`, `work_v`, `day_v`, `week_v`, `sch_v`) VALUES
-	(1, 1, 1, 1, 1, 1, 1, 1);
+	(1, 1, 1, 1, 2, 1, 1, 1);
 /*!40000 ALTER TABLE `updaters` ENABLE KEYS */;
 
 -- Дамп структуры для таблица easydiary.weeks
@@ -205,18 +210,19 @@ CREATE TABLE IF NOT EXISTS `works` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `subj_id` int(11) DEFAULT NULL,
   `group_id` int(11) DEFAULT NULL,
-  `title` varchar(255) DEFAULT '',
-  `data_text` varchar(1023) DEFAULT '',
+  `title` varchar(255) NOT NULL DEFAULT '',
+  `data_text` varchar(1023) NOT NULL DEFAULT '',
+  `version` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 -- Дамп данных таблицы easydiary.works: ~4 rows (приблизительно)
 /*!40000 ALTER TABLE `works` DISABLE KEYS */;
-INSERT IGNORE INTO `works` (`id`, `subj_id`, `group_id`, `title`, `data_text`) VALUES
-	(1, 1, 1, 'убить паука', 'надо убить двухметрового паука в сонной долине'),
-	(2, 2, 1, 'стать тенью', 'все обязаны познать таинства 97 завета греховных времён'),
-	(3, 1, 1, 'черти', 'пойти по этапу'),
-	(4, 4, 1, 'считалочка', 'произвести подсчёт сусликов во всём мире с точностью +- 1');
+INSERT IGNORE INTO `works` (`id`, `subj_id`, `group_id`, `title`, `data_text`, `version`) VALUES
+	(1, 1, 1, 'убить паука', 'надо убить двухметрового паука в сонной долине', 1),
+	(2, 2, 1, 'стать тенью', 'все обязаны познать таинства 97 завета греховных времён', 2),
+	(3, 1, 1, 'черти', 'пойти по этапу', 1),
+	(4, 4, 1, 'считалочка', 'произвести подсчёт сусликов во всём мире с точностью +- 1', 1);
 /*!40000 ALTER TABLE `works` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

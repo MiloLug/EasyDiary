@@ -24,7 +24,7 @@ DB:
 		-id, --[Work]..., title (Subject)
 
 	works:
-		-id, Subject.id, title, text... (Work)
+		-id, Subject.id, title, text, version ... (Work)
 
 	days:
 		-id, --[Subject]... (Day)
@@ -44,6 +44,16 @@ DB:
 	updaters:
 		-id, [Group.id], group_v, subj_v, work_v, day_v, week_v, sch_v (Updater)
 */
+
+/**
+ * UPDATE works w, updaters u SET u.work_v = u.work_v+1, w.version = u.work_v+1 WHERE u.group_id = 1 AND w.id = 2
+ */
+/** */
+/** */
+/** */
+/** */
+/** */
+/** */
 
 //const cache = require("./Cache");
 const mysql = require('mysql2/promise');
@@ -68,15 +78,23 @@ class BaseInstance{
 		]);
 		return rows[0];
 	}
-	async updateVersion(group){
+	async updateBaseVersion(group){
 		return (await db.execute(`UPDATE updaters SET ${this.cat}_v = ${this.cat}_v + 1 WHERE group_id = ?`, [
 			group
 		]))[0].affectedRows !== 0;
 	}
+	async getLastVersion(group){
+		return (await db.execute(`SELECT ${this.cat}_v version FROM updaters WHERE group_id = ?`, [
+			group
+		]))[0][0];
+	}
+	async data(){return [];}
 }
 
-module.exports.Subject = {
-	base: new BaseInstance("subj"),
+module.exports.Subject = new class Subject extends BaseInstance{
+	constructor(){
+		super("subj");
+	}
 	
 	async data(group){
 		let [rows, fields] = await db.execute(
@@ -94,10 +112,12 @@ INNER JOIN rel_group_subj RGS ON
 	}
 }
 
-module.exports.Work = {
-	base: new BaseInstance("work"),
+module.exports.Work = new class Work extends BaseInstance{
+	constructor(){
+		super("work");
+	}
 
-	async data(group){
+	async data(group, version = 0){
 		let [rows, fields] = await db.execute(
 `SELECT 
 	id,
@@ -106,29 +126,21 @@ module.exports.Work = {
 FROM
 	works
 WHERE
-	group_id = ?`, [
-			group
+	group_id = ?
+AND version > ?`, [
+			group,
+			version
 		]);
 		return rows;
 	}
 }
 
-module.exports.Day = class Day{
-	static _lastVersion = 0;
-	static _updateLocalVersion(){
-		Day._lastVersion = 23;
-	}
-	
-	static get lastVersion(){
-		return Day._lastVersion;
+module.exports.Day = new class Day extends BaseInstance{
+	constructor(){
+		super("day");
 	}
 
-	static hasUpdates(version){
-		Day._updateLocalVersion();
-		return version != Day.lastVersion;
-	}
-
-	static get data(){
+	async data(group){
 		return {
 			1: {
 				works: [10, 12],

@@ -9,7 +9,7 @@ fastify.register(require('fastify-cors'), {
 // Declare a route
 fastify.post('/student/getSubjects', async (request, reply) => {
 	let params = request.body.parsed;
-	let ver = await Subject.base.hasUpdates(1, params.lastVersion || 0);
+	let ver = await Subject.hasUpdates(1, params.lastVersion || 0);
 	if(ver !== undefined){
 		return {
 			hasUpdates: true,
@@ -29,12 +29,12 @@ fastify.post('/student/getSubjects', async (request, reply) => {
 
 fastify.post('/student/getWorks', async (request, reply) => {
 	let params = request.body.parsed;
-	let ver = await Subject.base.hasUpdates(1, params.lastVersion || 0);
+	let ver = await Work.hasUpdates(1, params.lastVersion || 0);
 	if(ver !== undefined){
 		return {
 			hasUpdates: true,
 			lastVersion: ver.version,
-			data: await Work.data(1)
+			data: await Work.data(1, params.lastVersion || 0)
 		};
 	}else{
 		return {
@@ -45,11 +45,12 @@ fastify.post('/student/getWorks', async (request, reply) => {
 
 fastify.post('/student/getDays', async (request, reply) => {
 	let params = request.body.parsed;
-	if(Day.hasUpdates(params.lastVersion)){
+	let ver = await Day.hasUpdates(1, params.lastVersion || 0);
+	if(ver !== undefined){
 		return {
 			hasUpdates: true,
-			lastVersion: Day.lastVersion,
-			data: Day.data
+			lastVersion: ver.version,
+			data: await Day.data(1)
 		};
 	}else{
 		return {
