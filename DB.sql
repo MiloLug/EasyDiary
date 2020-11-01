@@ -1,6 +1,6 @@
 -- --------------------------------------------------------
 -- Хост:                         127.0.0.1
--- Версия сервера:               5.7.20 - MySQL Community Server (GPL)
+-- Версия сервера:               8.0.12 - MySQL Community Server - GPL
 -- Операционная система:         Win64
 -- HeidiSQL Версия:              9.5.0.5196
 -- --------------------------------------------------------
@@ -13,10 +13,12 @@
 
 
 -- Дамп структуры базы данных easydiary
+DROP DATABASE IF EXISTS `easydiary`;
 CREATE DATABASE IF NOT EXISTS `easydiary` /*!40100 DEFAULT CHARACTER SET utf8 */;
 USE `easydiary`;
 
 -- Дамп структуры для таблица easydiary.days
+DROP TABLE IF EXISTS `days`;
 CREATE TABLE IF NOT EXISTS `days` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
@@ -27,6 +29,7 @@ CREATE TABLE IF NOT EXISTS `days` (
 /*!40000 ALTER TABLE `days` ENABLE KEYS */;
 
 -- Дамп структуры для таблица easydiary.groups
+DROP TABLE IF EXISTS `groups`;
 CREATE TABLE IF NOT EXISTS `groups` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `org_id` int(11) DEFAULT NULL,
@@ -40,6 +43,7 @@ INSERT IGNORE INTO `groups` (`id`, `org_id`) VALUES
 /*!40000 ALTER TABLE `groups` ENABLE KEYS */;
 
 -- Дамп структуры для таблица easydiary.organizations
+DROP TABLE IF EXISTS `organizations`;
 CREATE TABLE IF NOT EXISTS `organizations` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL DEFAULT '',
@@ -53,6 +57,7 @@ INSERT IGNORE INTO `organizations` (`id`, `title`) VALUES
 /*!40000 ALTER TABLE `organizations` ENABLE KEYS */;
 
 -- Дамп структуры для таблица easydiary.rel_day_subj
+DROP TABLE IF EXISTS `rel_day_subj`;
 CREATE TABLE IF NOT EXISTS `rel_day_subj` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `day_id` int(11) DEFAULT NULL,
@@ -66,6 +71,7 @@ CREATE TABLE IF NOT EXISTS `rel_day_subj` (
 /*!40000 ALTER TABLE `rel_day_subj` ENABLE KEYS */;
 
 -- Дамп структуры для таблица easydiary.rel_group_sch
+DROP TABLE IF EXISTS `rel_group_sch`;
 CREATE TABLE IF NOT EXISTS `rel_group_sch` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` int(11) DEFAULT NULL,
@@ -78,6 +84,7 @@ CREATE TABLE IF NOT EXISTS `rel_group_sch` (
 /*!40000 ALTER TABLE `rel_group_sch` ENABLE KEYS */;
 
 -- Дамп структуры для таблица easydiary.rel_group_stud
+DROP TABLE IF EXISTS `rel_group_stud`;
 CREATE TABLE IF NOT EXISTS `rel_group_stud` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` int(11) DEFAULT NULL,
@@ -90,6 +97,7 @@ CREATE TABLE IF NOT EXISTS `rel_group_stud` (
 /*!40000 ALTER TABLE `rel_group_stud` ENABLE KEYS */;
 
 -- Дамп структуры для таблица easydiary.rel_group_subj
+DROP TABLE IF EXISTS `rel_group_subj`;
 CREATE TABLE IF NOT EXISTS `rel_group_subj` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` int(11) DEFAULT NULL,
@@ -106,6 +114,7 @@ INSERT IGNORE INTO `rel_group_subj` (`id`, `group_id`, `subj_id`) VALUES
 /*!40000 ALTER TABLE `rel_group_subj` ENABLE KEYS */;
 
 -- Дамп структуры для таблица easydiary.rel_sch_week
+DROP TABLE IF EXISTS `rel_sch_week`;
 CREATE TABLE IF NOT EXISTS `rel_sch_week` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sch_id` int(11) DEFAULT NULL,
@@ -118,6 +127,7 @@ CREATE TABLE IF NOT EXISTS `rel_sch_week` (
 /*!40000 ALTER TABLE `rel_sch_week` ENABLE KEYS */;
 
 -- Дамп структуры для таблица easydiary.rel_stud_work_complete
+DROP TABLE IF EXISTS `rel_stud_work_complete`;
 CREATE TABLE IF NOT EXISTS `rel_stud_work_complete` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `student_id` int(11) DEFAULT NULL,
@@ -130,6 +140,7 @@ CREATE TABLE IF NOT EXISTS `rel_stud_work_complete` (
 /*!40000 ALTER TABLE `rel_stud_work_complete` ENABLE KEYS */;
 
 -- Дамп структуры для таблица easydiary.schedules
+DROP TABLE IF EXISTS `schedules`;
 CREATE TABLE IF NOT EXISTS `schedules` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `date_from` datetime DEFAULT NULL,
@@ -142,6 +153,7 @@ CREATE TABLE IF NOT EXISTS `schedules` (
 /*!40000 ALTER TABLE `schedules` ENABLE KEYS */;
 
 -- Дамп структуры для таблица easydiary.students
+DROP TABLE IF EXISTS `students`;
 CREATE TABLE IF NOT EXISTS `students` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL DEFAULT '',
@@ -153,6 +165,7 @@ CREATE TABLE IF NOT EXISTS `students` (
 /*!40000 ALTER TABLE `students` ENABLE KEYS */;
 
 -- Дамп структуры для таблица easydiary.subjects
+DROP TABLE IF EXISTS `subjects`;
 CREATE TABLE IF NOT EXISTS `subjects` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL DEFAULT '',
@@ -169,6 +182,7 @@ INSERT IGNORE INTO `subjects` (`id`, `title`) VALUES
 /*!40000 ALTER TABLE `subjects` ENABLE KEYS */;
 
 -- Дамп структуры для таблица easydiary.updaters
+DROP TABLE IF EXISTS `updaters`;
 CREATE TABLE IF NOT EXISTS `updaters` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `group_id` int(11) NOT NULL DEFAULT '1',
@@ -184,10 +198,11 @@ CREATE TABLE IF NOT EXISTS `updaters` (
 -- Дамп данных таблицы easydiary.updaters: ~0 rows (приблизительно)
 /*!40000 ALTER TABLE `updaters` DISABLE KEYS */;
 INSERT IGNORE INTO `updaters` (`id`, `group_id`, `group_v`, `subj_v`, `work_v`, `day_v`, `week_v`, `sch_v`) VALUES
-	(1, 1, 3, 3, 4, 3, 3, 3);
+	(1, 1, 3, 3, 5, 3, 3, 3);
 /*!40000 ALTER TABLE `updaters` ENABLE KEYS */;
 
 -- Дамп структуры для таблица easydiary.weeks
+DROP TABLE IF EXISTS `weeks`;
 CREATE TABLE IF NOT EXISTS `weeks` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `sch_id` int(11) DEFAULT NULL,
@@ -206,6 +221,7 @@ CREATE TABLE IF NOT EXISTS `weeks` (
 /*!40000 ALTER TABLE `weeks` ENABLE KEYS */;
 
 -- Дамп структуры для таблица easydiary.works
+DROP TABLE IF EXISTS `works`;
 CREATE TABLE IF NOT EXISTS `works` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `subj_id` int(11) DEFAULT NULL,
@@ -222,7 +238,7 @@ INSERT IGNORE INTO `works` (`id`, `subj_id`, `group_id`, `data_text`, `version`)
 	(2, 2, 1, 'все обязаны познать таинства 97 завета греховных времён', 2),
 	(3, 1, 1, 'пойти по этапу', 1),
 	(4, 4, 1, 'произвести подсчёт сусликов во всём мире с точностью +- 1', 1),
-	(5, 1, 1, 'Твiр роздум на тему : \r\n"життя у побудi \r\nтарганiв та великих  \r\nбобрiв" . врпава 7-12 \r\nусно( переказ ) , \r\nвправи 13 та 16 \r\nписьмено.\r\nыввыа ша зу\r\nТвiр роздум на тему : \r\n"життя у побудi \r\nтарганiв та великих  \r\nбобрiв" . врпава 7-12 \r\nусно( переказ ) , \r\nвправи 13 та 16 \r\nписьмено.\r\n\r\nТвiр роздум на тему : \r\n"життя у побудi \r\nтарганiв та великих  \r\nбобрiв" . врпава 7-12 \r\nусно( переказ ) , \r\nвправи 13 та 16 \r\nписьмено.\r\nвправи 13 та 16 \r\nписьмено.\r\n\r\nТвiр роздум на тему : \r\n"життя у побудi \r\nтарганiв та великих  \r\nбобрiв" . врпава 7-12 \r\nусно( переказ ) , \r\nвправи 13 та 16 \r\nписьмено.', 4);
+	(5, 1, 1, 'Твiр роздум на тему : \r\n"життя у побудi \r\nтарганiв та великих  \r\nбобрiв" . врпава 7-12 \r\nусно( переказ ) , \r\nвправи 13 та 16 \r\nписьмено.\r\nыввыа ша зу\r\nТвiр роздум на тему : \r\n"життя у побудi \r\nтарганiв та великих  \r\nбобрiв" . врпава 7-12 \r\nусно( переказ ) , \r\nвправи 13 та 16 \r\nписьмено.\r\n\r\nТвiр роздум на тему : \r\n"життя у побудi \r\nтарганiв та великих  \r\nбобрiв" . врпава 7-12 \r\nусно( переказ ) , \r\nвправи 13 та 16 \r\nписьмено.\r\nвправи 13 та 16 \r\nписьмено.\r\n\r\nТвiр роздум на тему : \r\n"життя у побудi \r\nтарганiв та великих  \r\nбобрiв" . врпава 7-12 \r\nусно( переказ ) , \r\nвправи 13 та 16 \r\nписьмено.\r\nТвiр роздум на тему : \r\n"життя у побудi \r\nтарганiв та великих  \r\nбобрiв" . врпава 7-12 \r\nусно( переказ ) , \r\nвправи 13 та 16 \r\nписьмено.\r\nыввыа ша зу\r\nТвiр роздум на тему : \r\n"життя у побудi \r\nтарганiв та великих  \r\nбобрiв" . врпава 7-12 \r\nусно( переказ ) , \r\nвправи 13 та 16 \r\nписьмено.\r\n\r\nТвiр роздум на тему : \r\n"життя у побудi \r\nтарганiв та великих  \r\nбобрiв" . врпава 7-12 \r\nусно( переказ ) , \r\nвправи 13 та 16 \r\nписьмен', 5);
 /*!40000 ALTER TABLE `works` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

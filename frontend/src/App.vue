@@ -43,6 +43,7 @@ export default {
 	},
 	mounted(){
 		window.gg = this.$store;
+		window.app = this;
 		this.appLoading();
 	}
 }

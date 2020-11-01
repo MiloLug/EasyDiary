@@ -29,7 +29,7 @@ let storage = typeof(InternalStorage) != 'undefined' ? {
 
 /*eslint-enable no-undef*/
 let API = {
-	address: 'https://9e8649701c0c.ngrok.io/',
+	address: 'https://449ea08942f8.ngrok.io/',
 	async call(path, parameters = null){
 		return fetch(API.address + path, {
 			method:"POST",
@@ -44,6 +44,21 @@ let API = {
 };
 
 let storageAPIUtils = {
+	mergeArraysById(a, b){
+		let keys = {};
+		let tmp = [...a];
+		for(let i = 0, len = a.length; i < len; i++){
+			keys[a[i].id] = i;
+		}
+		for(let item of b){
+			if(keys[item.id] !== undefined){
+				tmp[keys[item.id]] = item;
+			}else{
+				tmp.push(item);
+			}
+		}
+		return tmp;
+	},
 	async getUpdates(dataClass){
 		let tmp;
 		let req;
@@ -54,7 +69,7 @@ let storageAPIUtils = {
 				});
 				if(req.hasUpdates){
 					if(Array.isArray(req.data)){
-						tmp.data = tmp.data.concat(req.data);
+						tmp.data = storageAPIUtils.mergeArraysById(tmp.data, req.data);
 					}else{
 						Object.assign(tmp.data, req.data);
 					}

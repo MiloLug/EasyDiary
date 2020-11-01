@@ -2,13 +2,15 @@
 	<div class="work-viewer" v-bind:class="{show: shown}">
 		<div class="body" ref="work-viewer-body">
 			<div class="bg" v-on:click="hide"></div>
-			<div class="box">
+			<v-touch tag="div" class="box" 
+				v-on:pandown="onPanDown">
+
 				<div class="title">
 					{{subject_title}}
 					<hr>
 				</div>
-				<div v-html="work_content"></div>
-			</div>
+				<div class="content" v-html="work_content"></div>
+			</v-touch>
 		</div>
 	</div>
 </template>
@@ -39,6 +41,11 @@ export default {
 	methods: {
 		hide(){
 			this.$store.commit("WorkViewer/hide");
+		},
+		onPanDown(){
+			if(this.$refs["work-viewer-body"].scrollTop == 0){
+				this.hide();
+			}
 		}
 	}
 }
@@ -70,16 +77,6 @@ export default {
 		position:fixed;
 
 		.box{
-			.title{
-				font-size: 22px;
-				margin-bottom: 15px;
-				text-align: center;
-				hr {
-					height: 1px;
-					background: black;
-				}
-			}
-
 			position: absolute;
 			width: 90%;
 			left: 5%;
@@ -90,6 +87,20 @@ export default {
 			height: auto;
 			background: $color-light;
 			box-shadow: $shadow-light;
+
+			.title{
+				font-size: 22px;
+				margin-bottom: 15px;
+				text-align: center;
+				hr {
+					height: 1px;
+					background: black;
+				}
+			}
+
+			.content{
+				text-indent: 20px;
+			}
 		}
 
 		top:100%;
