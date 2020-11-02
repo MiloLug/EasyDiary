@@ -4,6 +4,7 @@
 	<Sidebar/>
 
 	<Calendar v-bind:default="true"/>
+	<Schedule/>
 	<Notes/>
 	<WorkViewer/>
 
@@ -17,6 +18,7 @@
 import Sidebar from './components/Sidebar.vue'
 import Header from './components/Header.vue'
 import Calendar from './components/Calendar.vue'
+import Schedule from './components/Schedule.vue'
 import Notes from './components/Notes.vue'
 import LoadingScreen from './components/LoadingScreen.vue'
 import WorkViewer from './components/WorkViewer.vue'
@@ -26,6 +28,7 @@ export default {
 	components: {
 		Sidebar,
 		Calendar,
+		Schedule,
 		Header,
 		Notes,
 		LoadingScreen,

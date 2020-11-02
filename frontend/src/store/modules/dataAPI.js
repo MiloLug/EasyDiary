@@ -29,7 +29,7 @@ let storage = typeof(InternalStorage) != 'undefined' ? {
 
 /*eslint-enable no-undef*/
 let API = {
-	address: 'https://449ea08942f8.ngrok.io/',
+	address: 'https://4417c1e5a732.ngrok.io/',
 	async call(path, parameters = null){
 		return fetch(API.address + path, {
 			method:"POST",
